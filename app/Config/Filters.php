@@ -35,6 +35,7 @@ class Filters extends BaseFilters
         'pagecache' => PageCache::class,
         'performance' => PerformanceMetrics::class,
         'role' => \App\Filters\RoleFilter::class,
+        'apikey' => \App\Filters\ApiKeyFilter::class,
     ];
 
     /**

@@ -27,3 +27,7 @@ $routes->group('admin', ['filter' => 'role:admin'], static function ($routes) {
 $routes->group('member', ['filter' => 'role:member'], static function ($routes) {
   $routes->get('dashboard', 'MemberController::dashboard');
 });
+
+$routes->group('api', ['filter' => 'apikey'], static function ($routes) {
+  $routes->get('books', 'Api\BookApi::index');
+});
