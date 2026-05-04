@@ -24,7 +24,7 @@
 
         <?php if (session()->get('role') === 'admin'): ?>
           <a href="/admin/dashboard" class="nav-link-custom active mt-2">Dashboard</a>
-          <a href="#" class="nav-link-custom">Katalog Buku</a>
+          <a href="/admin/books" class="nav-link-custom">Katalog Buku</a>
           <a href="#" class="nav-link-custom">Data Peminjaman</a>
         <?php else: ?>
           <a href="/member/dashboard" class="nav-link-custom active mt-2">Dashboard</a>

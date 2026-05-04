@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class BookModel extends Model
 {
-    protected $table = 'users';
+    protected $table = 'books';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['name', 'email', 'password', 'role'];
+    protected $allowedFields = ['title', 'author', 'isbn', 'cover_image', 'stock'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
