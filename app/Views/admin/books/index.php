@@ -47,6 +47,8 @@
               <span class="badge bg-light text-dark border px-2 py-1"><?= $book['stock'] ?> Pcs</span>
             </td>
             <td class="text-center">
+              <a href="/admin/books/show/<?= $book['id'] ?>" class="btn btn-sm btn-outline-info me-2"
+                style="border-radius: 8px; font-weight: 600;">Detail</a>
               <a href="/admin/books/edit/<?= $book['id'] ?>" class="btn btn-sm btn-outline-primary me-2"
                 style="border-radius: 8px; font-weight: 600;">Edit</a>
               <a href="/admin/books/delete/<?= $book['id'] ?>" class="btn btn-sm btn-outline-danger"

@@ -145,4 +145,75 @@ class BookController extends BaseController
         $this->bookModel->delete($id);
         return redirect()->to('/admin/books')->with('success', 'Buku berhasil dihapus dari sistem.');
     }
+
+    public function show($id)
+    {
+        $book = $this->bookModel->find($id);
+
+        if (!$book) {
+            return redirect()->to('/admin/books')->with('error', 'Buku tidak ditemukan.');
+        }
+
+        // 1. Inisialisasi layanan Cache CI4
+        $cache = \Config\Services::cache();
+
+        // Buat kunci cache unik berdasarkan ISBN
+        $cacheKey = 'google_books_isbn_' . str_replace('-', '', $book['isbn']);
+
+        // 2. Cek apakah data API sudah ada di dalam cache
+        $apiData = $cache->get($cacheKey);
+
+        if ($apiData === null) {
+            // 3. Jika belum di-cache, panggil Webservice Server (Google Books API)
+            $client = \Config\Services::curlrequest();
+
+            try {
+                // Request GET ke Google Books API
+                $response = $client->request('GET', 'https://www.googleapis.com/books/v1/volumes?q=isbn:' . $book['isbn']);
+                $body = json_decode($response->getBody(), true);
+
+                // Parsing data jika buku ditemukan di API
+                if (isset($body['items'][0]['volumeInfo'])) {
+                    $info = $body['items'][0]['volumeInfo'];
+                    $apiData = [
+                        'synopsis' => $info['description'] ?? 'Sinopsis tidak tersedia di database Google Books.',
+                        'pageCount' => $info['pageCount'] ?? 'Tidak diketahui',
+                        'publisher' => $info['publisher'] ?? 'Tidak diketahui',
+                        'publishedDate' => $info['publishedDate'] ?? 'Tidak diketahui',
+                        'categories' => isset($info['categories']) ? implode(', ', $info['categories']) : 'Uncategorized'
+                    ];
+                } else {
+                    // Jika ISBN tidak ditemukan di Google Books
+                    $apiData = [
+                        'synopsis' => 'Buku ini tidak memiliki catatan di database global Google Books.',
+                        'pageCount' => '-',
+                        'publisher' => '-',
+                        'publishedDate' => '-',
+                        'categories' => '-'
+                    ];
+                }
+
+                // 4. Simpan hasil API ke dalam Cache selama 24 jam (86400 detik)
+                $cache->save($cacheKey, $apiData, 86400);
+
+            } catch (\Exception $e) {
+                // 5. Error Handling: Jika server Google down atau tidak ada internet
+                $apiData = [
+                    'synopsis' => 'Gagal mengambil data dari server. Error: ' . $e->getMessage(),
+                    'pageCount' => '-',
+                    'publisher' => '-',
+                    'publishedDate' => '-',
+                    'categories' => '-'
+                ];
+            }
+        }
+
+        $data = [
+            'title' => 'Detail Buku',
+            'book' => $book,
+            'apiData' => $apiData
+        ];
+
+        return view('admin/books/show', $data);
+    }
 }

@@ -20,6 +20,8 @@ $routes->group('admin', ['filter' => 'role:admin'], static function ($routes) {
   $routes->get('books/edit/(:num)', 'BookController::edit/$1');
   $routes->post('books/update/(:num)', 'BookController::update/$1');
   $routes->get('books/delete/(:num)', 'BookController::delete/$1');
+
+  $routes->get('books/show/(:num)', 'BookController::show/$1');
 });
 
 $routes->group('member', ['filter' => 'role:member'], static function ($routes) {

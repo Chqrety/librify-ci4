@@ -159,3 +159,12 @@ body {
     0 2px 4px -1px rgba(0, 0, 0, 0.03);
   border: 1px solid #e2e8f0;
 }
+
+.btn-outline-info {
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+}
+.btn-outline-info:hover {
+  background-color: #0ea5e9;
+  color: #fff;
+}
