@@ -14,8 +14,7 @@ class MemberController extends BaseController
 
     public function dashboard()
     {
-        echo "<h1>Dashboard Member Librify</h1>";
-        echo "<p>Selamat datang, " . session()->get('name') . "</p>";
-        echo "<a href='/logout'>Logout</a>";
+        $data = ['title' => 'Dashboard Member'];
+        return view('member/dashboard', $data);
     }
 }
