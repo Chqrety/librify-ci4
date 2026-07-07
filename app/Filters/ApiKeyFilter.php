@@ -25,19 +25,18 @@ class ApiKeyFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Kunci rahasia API kita (Dalam praktek nyata, ini disimpan di .env)
-        $secretKey = 'Librify-Super-Secret-Key-2026';
+        // Mengambil API Key dari HTTP Header bernama 'X-Authorization-Key'
+        $apiKey = $request->getHeaderLine('X-Authorization-Key');
 
-        // Cek header X-API-KEY dari client
-        $clientKey = $request->getHeaderLine('X-API-KEY');
+        // Ganti dengan API Key statis bebas yang kamu sepakati (atau simpan di .env)
+        $validKey = 'librify_secret_token_2026';
 
-        if (empty($clientKey) || $clientKey !== $secretKey) {
-            // Jika token salah atau tidak ada, tolak dengan JSON 401 Unauthorized
+        if (empty($apiKey) || $apiKey !== $validKey) {
             $response = service('response');
             return $response->setJSON([
                 'status' => false,
-                'message' => 'Akses ditolak. API Key tidak valid atau tidak ditemukan.'
-            ])->setStatusCode(401);
+                'message' => 'Akses Ditolak! API Key tidak valid atau tidak disertakan pada HTTP Header.'
+            ])->setStatusCode(401); // 401 Unauthorized
         }
     }
 

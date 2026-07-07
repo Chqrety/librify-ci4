@@ -12,7 +12,6 @@
 <body>
 
   <div class="wrapper">
-    <!-- Sidebar -->
     <aside class="sidebar d-none d-md-flex">
       <div class="sidebar-header">
         <h4>Libri<span>fy</span>.</h4>
@@ -37,8 +36,11 @@
             Dashboard
           </a>
           <a href="<?= base_url('member/search') ?>"
-            class="nav-link-custom <?= url_is('member/search') ? 'active' : '' ?>">Cari Buku</a>
-          <a href="#" class="nav-link-custom" title="Fitur dalam pengembangan">
+            class="nav-link-custom <?= url_is('member/search') ? 'active' : '' ?>">
+            Cari Buku
+          </a>
+          <a href="<?= base_url('member/loans') ?>"
+            class="nav-link-custom <?= url_is('member/loans*') ? 'active' : '' ?>">
             Peminjaman Saya
           </a>
         <?php endif; ?>
@@ -49,9 +51,7 @@
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
-      <!-- Top Navbar -->
       <nav class="top-navbar">
         <div class="fw-bold text-dark fs-5">
           <?= $title ?? 'Dashboard' ?>
@@ -67,7 +67,6 @@
         </div>
       </nav>
 
-      <!-- Dynamic Content Area -->
       <div class="content-wrapper">
         <?= $this->renderSection('content') ?>
       </div>

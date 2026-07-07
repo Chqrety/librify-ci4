@@ -8,93 +8,29 @@ use CodeIgniter\RESTful\ResourceController;
 
 class BookApi extends ResourceController
 {
+    protected $modelName = 'App\Models\BookModel';
     protected $format = 'json';
 
-    /**
-     * Return an array of resource objects, themselves in array format.
-     *
-     * @return ResponseInterface
-     */
+    // endpoint: GET /api/books
     public function index()
     {
-        $bookModel = new BookModel();
-        $books = $bookModel->findAll();
+        // Mengambil semua data buku dari database internal perpustakaan
+        $books = $this->model->orderBy('id', 'DESC')->findAll();
 
-        // Format response sesuai standar RESTful API yang baik
-        $response = [
+        if (empty($books)) {
+            return $this->respond([
+                'status' => true,
+                'message' => 'Katalog buku masih kosong.',
+                'data' => []
+            ], 200);
+        }
+
+        // Response JSON rapi berstandar RESTful
+        return $this->respond([
             'status' => true,
-            'message' => 'Berhasil mengambil data katalog buku.',
+            'message' => 'Berhasil mengambil seluruh data katalog internal.',
+            'total' => count($books),
             'data' => $books
-        ];
-
-        return $this->respond($response, 200);
-    }
-
-    /**
-     * Return the properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function show($id = null)
-    {
-        //
-    }
-
-    /**
-     * Return a new resource object, with default properties.
-     *
-     * @return ResponseInterface
-     */
-    public function new()
-    {
-        //
-    }
-
-    /**
-     * Create a new resource object, from "posted" parameters.
-     *
-     * @return ResponseInterface
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Return the editable properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function update($id = null)
-    {
-        //
-    }
-
-    /**
-     * Delete the designated resource object from the model.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function delete($id = null)
-    {
-        //
+        ], 200);
     }
 }
