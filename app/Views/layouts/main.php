@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    <?= $title ?? 'Librify' ?>
-  </title>
+  <title><?= $title ?? 'Librify' ?></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?= base_url('css/style.css') ?>" rel="stylesheet">
 </head>
@@ -23,17 +21,31 @@
         <small class="text-muted ms-3 fw-bold text-uppercase" style="font-size: 0.7rem;">Menu Utama</small>
 
         <?php if (session()->get('role') === 'admin'): ?>
-          <a href="/admin/dashboard" class="nav-link-custom active mt-2">Dashboard</a>
-          <a href="/admin/books" class="nav-link-custom">Katalog Buku</a>
-          <a href="#" class="nav-link-custom">Data Peminjaman</a>
+          <a href="<?= base_url('admin/dashboard') ?>"
+            class="nav-link-custom <?= url_is('admin/dashboard') ? 'active' : '' ?> mt-2">
+            Dashboard
+          </a>
+          <a href="<?= base_url('admin/books') ?>" class="nav-link-custom <?= url_is('admin/books*') ? 'active' : '' ?>">
+            Katalog Buku
+          </a>
+          <a href="#" class="nav-link-custom" title="Fitur dalam pengembangan">
+            Data Peminjaman
+          </a>
         <?php else: ?>
-          <a href="/member/dashboard" class="nav-link-custom active mt-2">Dashboard</a>
-          <a href="#" class="nav-link-custom">Cari Buku</a>
-          <a href="#" class="nav-link-custom">Peminjaman Saya</a>
+          <a href="<?= base_url('member/dashboard') ?>"
+            class="nav-link-custom <?= url_is('member/dashboard') ? 'active' : '' ?> mt-2">
+            Dashboard
+          </a>
+          <a href="<?= base_url('member/search') ?>"
+            class="nav-link-custom <?= url_is('member/search') ? 'active' : '' ?>">Cari Buku</a>
+          <a href="#" class="nav-link-custom" title="Fitur dalam pengembangan">
+            Peminjaman Saya
+          </a>
         <?php endif; ?>
       </div>
       <div class="sidebar-footer">
-        <a href="/logout" class="btn btn-outline-danger w-100 fw-bold" style="border-radius: 10px;">Logout</a>
+        <a href="<?= base_url('logout') ?>" class="btn btn-outline-danger w-100 fw-bold"
+          style="border-radius: 10px;">Logout</a>
       </div>
     </aside>
 
@@ -50,7 +62,7 @@
           </span>
           <div class="bg-light rounded-circle d-flex align-items-center justify-content-center fw-bold"
             style="width: 40px; height: 40px; color: #10B981; border: 2px solid #10B981;">
-            <?= strtoupper(substr(session()->get('name'), 0, 1)) ?>
+            <?= strtoupper(substr(session()->get('name') ?? 'U', 0, 1)) ?>
           </div>
         </div>
       </nav>

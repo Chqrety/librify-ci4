@@ -26,6 +26,7 @@ $routes->group('admin', ['filter' => 'role:admin'], static function ($routes) {
 
 $routes->group('member', ['filter' => 'role:member'], static function ($routes) {
   $routes->get('dashboard', 'MemberController::dashboard');
+  $routes->get('search', 'MemberController::search'); // <--- TAMBAHKAN BARIS INI
 
   $routes->get('payment/fine/(:num)', 'PaymentController::payFine/$1');
   $routes->get('payment/success/(:num)', 'PaymentController::success/$1');
